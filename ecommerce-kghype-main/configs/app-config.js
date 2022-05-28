@@ -1,0 +1,12 @@
+exports.USER_PREFIX = '/user';
+exports.SIGNUP_PREFIX = '/signup';
+exports.ADMIN_PREFIX = '/cp';
+exports.LOGIN_PREFIX = '/login';
+exports.PRODUCT_PREFIX = '/product'
+exports.CUSTOMER_PREFIX = '/customer'
+exports.ADD_PREFIX = "/add";
+exports.GET_PREFIX = "/get";
+exports.UPDATE_PREFIX = '/update';
+exports.DELETE_PREFIX = '/delete';
+exports.SEARCH_PREFIX = '/search';
+exports.DB_PATH = 'mongodb://127.0.0.1/kghype'
