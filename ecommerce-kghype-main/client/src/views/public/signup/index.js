@@ -1,13 +1,24 @@
-import Button from 'components/button'
-import { Container } from 'components/container'
 import { Heading } from 'components/heading'
+import { Box } from "@mui/system";
 import ImageWrapper from 'components/image-wrapper'
-import Input from 'components/input'
 import styled from 'styled-components'
 import { SharedImage } from 'constants/image-constant'
 import { useState } from 'react'
 import { signUp } from 'actions/users';
 import { NotifySuccess, NotifyFail } from 'utilities'
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Button,
+    Select,
+    CircularProgress,
+    Typography,
+    TextField,
+    Container,
+} from "@mui/material";
+
+import MuiPhoneNumber from 'material-ui-phone-number';
 
 const ContainerStyle = {
     display: "flex",
@@ -52,15 +63,74 @@ export default function SignUpPage() {
                 <ImageWrapper src={Coupon} alt="coupon" />
             </CouponWrapper>
             <FormWrapper>
-                <Heading style={HeadingStyle}>New Account</Heading>
-                <Input label="email address" name="email" onChange={(e) => setData(e)} />
-                <Input label="password" type='password' name="password" onChange={(e) => setData(e)} />
-                <Input label="confirm password" type='password' name="cfpassword" onChange={(e) => setData(e)} />
-                <Input label="country" name="country" onChange={(e) => setData(e)} />
-                <Input label="firstname" name="firstname" onChange={(e) => setData(e)} />
-                <Input label="lastname" name="lastname" onChange={(e) => setData(e)} />
-                <Input label="phone number" name="phone" onChange={(e) => setData(e)} />
-                <Button text="Sign Up" style={SignUpButton} onClick={(e) => SignUpUser(e)} />
+
+                <Box sx={{ mt: "2%", mb: "2%" }} width="100%">
+                    <FormControl fullWidth>
+                        <TextField
+                        variant="outlined"
+                        type="text"
+                        label="Email"
+                        name='email'
+                        onChange={(e) => setData(e)}
+                        />
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ mt: "2%", mb: "2%" }} width="100%">
+                    <FormControl fullWidth>
+                        <TextField
+                        variant="outlined"
+                        type="password"
+                        label="Password"
+                        name='password'
+                        onChange={(e) => setData(e)}
+                        />
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ mt: "2%", mb: "2%" }} width="100%">
+                    <FormControl fullWidth>
+                        <TextField
+                        variant="outlined"
+                        type="password"
+                        label="Confirm Password"
+                        name='confirm password'
+                        onChange={(e) => setData(e)}
+                        />
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ mt: "2%", mb: "2%" }} width="100%">
+                    <FormControl fullWidth>
+                        <TextField
+                        variant="outlined"
+                        type="first name"
+                        label="First Name"
+                        name='firstname'
+                        onChange={(e) => setData(e)}
+                        />
+                    </FormControl>
+                </Box>
+
+                <Box sx={{ mt: "2%", mb: "2%" }} width="100%">
+                    <FormControl fullWidth>
+                        <TextField
+                        variant="outlined"
+                        type="text"
+                        label="Password"
+                        name='password'
+                        onChange={(e) => setData(e)}
+                        />
+                    </FormControl>
+                </Box>
+
+                <MuiPhoneNumber 
+                variant="outlined" 
+                fullWidth 
+                defaultCountry={'us'}
+                />
+
+                <Button fullWidth>Sign Up</Button>
             </FormWrapper>
         </Container>
     )

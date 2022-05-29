@@ -4,6 +4,17 @@ import styled from 'styled-components';
 import Button from 'components/button';
 import { Link } from 'react-router-dom';
 import { ADMIN_PREFIX, LOGIN_PREFIX } from 'configs/app-config';
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Button,
+    Select,
+    CircularProgress,
+    Typography,
+    TextField,
+    Container,
+} from "@mui/material";
 
 const ButtonStyle = {
     backgroundColor: "#6F4FF2",
@@ -20,19 +31,16 @@ export default function AdminSignUp () {
     }
     return(
         <Wrapper>
-                <Form>
-                    <InputDark label='Email' name='email' onChange={(e) => setData(e)} />
-                    <InputDark label='Password' type='password' name='password' onChange={(e) => setData(e)}/>
-                    <InputDark label='Confirm Password' type='password' name='confirm password' onChange={(e) => setData(e)}/>
-                    <InputDark label='Firstname' name='firstname' onChange={(e) => setData(e)}/>
-                    <InputDark label='Lastname' name='lastname' onChange={(e) => setData(e)}/>
-                    <InputDark label='Phone number' name='phone' onChange={(e) => setData(e)}/>
-                    <Button style={ButtonStyle} text="Sign up"/>
-                    <Row>
-                        Already have an account?
-                        <Link to={ADMIN_PREFIX + LOGIN_PREFIX}>Sign in</Link>
-                    </Row>
-                </Form>
+            <FormControl fullWidth>
+                <TextField
+                  required
+                  variant="outlined"
+                  type="text"
+                  label="Player 2 Name"
+                  name="player2"
+                  onChange={(e) => setData(e)}
+                />
+            </FormControl>
         </Wrapper>
     )
 }
