@@ -3,18 +3,16 @@ const CustomerModel = require('../models/user');
 
 exports.addCustomer = async (req, res) => {
     try{
-        const { email, password, cfpassword, country, firstname, lastname, phone } = req.body;
-        if (!(email && password && cfpassword && country && firstname && lastname && phone)) {
+        const { email, password, country, firstname, lastname, phone } = req.body;
+        if (!(email && password && country && firstname && lastname && phone)) {
             console.log("Check")
             return res.status(400).send("All input is required");
-        }
+        };
         const oldUser = await CustomerModel.findOne({ email });
 		if (oldUser) {
 			return res.status(409).send("Already Exist.");
-		}
-        let encryptedPassword = await bcrypt.hash(password, 10);
-        const customer = { ...req.body, password:encryptedPassword, cfpassword: encryptedPassword };
-        const data = await new CustomerModel(customer).save();
+		};
+        const data = await new CustomerModel(req.body).save();
         return res.status(200).send({ data: data });
     } catch (err) {
         console.log(err);

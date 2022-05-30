@@ -1,27 +1,17 @@
-const UserModel = require('../models/user');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
-exports.signUp = async (req, res) => {
+async function signUp(req, res){
+	const { password, country, firstname, lastname, phone } = data;
 	try{
-		const { email, password, cfpassword, country, firstname, lastname, phone } = req.body;
-		if (email === undefined || password === undefined || cfpassword === undefined || country === undefined || firstname === undefined || lastname === undefined|| phone === undefined) {
-			return res.send({msg:"All input is required"});
-		}
-	
-		const oldUser = await UserModel.findOne({ email });
-		if (oldUser) {
-			return res.status(409).send("Already Exist. Please Login");
-		}
-		let encryptedPassword = await bcrypt.hash(password, 10);
-		const user = { ...req.body, password: encryptedPassword, cfpassword: encryptedPassword };
-		const result = await new UserModel(user).save();
-		return res.status(200).send({ data: result });
+		await User.create({ password, country, firstname, lastname, phone })
+		res.status(201).json({ user: firstname });
 	} catch (err){
 		console.log(err);
 	}
 };
 
-exports.signIn = (req, res) => {
+async function signIn(req, res) {
 	try{
 		const { email, password } = req.body;
 		if (email === undefined || password === undefined) {
@@ -41,4 +31,6 @@ exports.signIn = (req, res) => {
 	} catch (err) {
 		console.log(err);
 	}
-}
+};
+
+module.exports = { signUp, signIn}
