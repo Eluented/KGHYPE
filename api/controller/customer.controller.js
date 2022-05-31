@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const CustomerModel = require('../models/user');
+const CustomerModel = require('../models/User');
 
 exports.addCustomer = async (req, res) => {
     try{
