@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node api/index.js",
     "client": "npm start --prefix client",
-    "server": "nodemon src",
+    "server": "nodemon api/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
