@@ -1,8 +1,5 @@
 exports.USER_PREFIX = '/user';
-exports.SIGNUP_PREFIX = '/signup';
 exports.ADMIN_PREFIX = '/cp';
-exports.LOGIN_PREFIX = '/login';
-exports.PRODUCT_PREFIX = '/product'
 exports.CUSTOMER_PREFIX = '/customer'
 exports.ADD_PREFIX = "/add";
 exports.GET_PREFIX = "/get";

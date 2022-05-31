@@ -17,12 +17,14 @@ module.exports = class User {
             try {
                 // checking if email already exists 
                 const oldUser = await User.findOne({ email });
+
                 console.log({email}) // remove later
                 if (oldUser) {
                     resolve ("This email address is already being used");
                 } else {
                     const user = await Schema.User.create(data);
-                    resolve(user);
+
+                    resolve(User(user));
                 }
             } catch (err) {
                 console.log(err)
@@ -31,30 +33,79 @@ module.exports = class User {
         });
     };
 
-
-    static async update(data) {
-        return new Promise(async (resolve, reject) => {
+    static async login(email, password) {
+        return new Promise(async (resolve, reject) =>{
             try {
-                // unsure ?
-            } catch (err) {
-                reject('User could not be updated');
-            }
-        });
-    };
+                const user = await this.findByEmail(email);
 
-    destroy() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                //let result = await // delete from database [this.id]
-                //resolve (objected was deleted);
+                // if there is an email - compares password with encrypted password in db
+                if (user) {
+                    const auth = await bcrypt.compare(password, user.password)
+
+                    if (auth) {
+                        resolve(User(user))
+                    }
+                    throw Error('Password incorrect')
+                }
+
+                resolve(user);
             } catch (err) {
-                reject('object could not be deleted')
+                reject(`User with email: ${email} not found: ${err}`);
+
+                console.log(err)
             }
         })
     };
 
+    // helper async function for login
+    static async findByEmail(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const user = Schema.User.findOne({ email: email.toLowerCase() });
 
+                resolve(user);
+            } catch (err) {
+                reject(`User with email: ${email} not found`);
+            }
+        });
+    };
 
+    static updateEmail(email, password) {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const user = await this.findByEmail(email);
+            
+            // if there is an email - compares password with encrypted password in db
+            if (user) {
+                const auth = await bcrypt.compare(password, user.password)
+                if (auth) {
+                    const updateUser = await Schema.User
+                    .updateOne(
+                        { email: email },
+                        { $set: password }
+                    );
 
+                    resolve(User(updateUser));
+                }
+                throw Error('Password Incorrect');
+            }
+          } catch (err) {
+            reject(`Error Updating User: ${err}`);
 
-}
+            console.log(err)
+          }
+        });
+      }
+
+    destroy() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // What should we delete from the user?
+                resolve('It worked!')
+            } catch (err) {
+                reject('User could not be deleted')
+            }
+        })
+    };
+
+};
