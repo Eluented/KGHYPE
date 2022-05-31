@@ -2,7 +2,7 @@
 const express = require('express');
 const userRoute = require('../routes/user.route');
 const adminRoute = require('../routes/admin-main.route');
-const { USER_PREFIX, ADMIN_PREFIX } = require('../configs/app-config');
+const productRoute = require('../routes/product.route');
 const DB = require('../configs/database');
 const env = require('../configs/env-configs')
 
@@ -11,8 +11,9 @@ env.config();
 // DB Connect
 DB.connect();
 
-env.provider.use(USER_PREFIX, userRoute);
-env.provider.use(ADMIN_PREFIX, adminRoute);
+env.provider.use('/user', userRoute);
+env.provider.use('/cp', adminRoute);
+env.provider.use('/product', productRoute);
 
 // starting the server
 env.provider.listen(3001, () => {

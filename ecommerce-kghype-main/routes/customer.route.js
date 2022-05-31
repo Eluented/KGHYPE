@@ -1,12 +1,11 @@
 const express = require('express');
 const CustomerController = require('../controller/customer.controller');
-const { ADD_PREFIX, GET_PREFIX, UPDATE_PREFIX, DELETE_PREFIX } = require('../configs/app-config');
 
 const router = express.Router();
 
-router.post(ADD_PREFIX, CustomerController.addCustomer);
-router.post(GET_PREFIX, CustomerController.getCustomers);
-router.post(UPDATE_PREFIX, CustomerController.updateCustomer);
-router.post(DELETE_PREFIX, CustomerController.deleteCustomer);
+router.post('/add', CustomerController.addCustomer);
+router.post('/get', CustomerController.getCustomers);
+router.post('/update', CustomerController.updateCustomer);
+router.post('/delete', CustomerController.deleteCustomer);
 
 module.exports = router;

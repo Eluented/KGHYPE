@@ -2,9 +2,9 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 async function signUp(req, res){
-	const { password, country, firstname, lastname, phone } = data;
+	const { firstname, lastname, email, password, phone, country } = req.body;
 	try {
-		await User.create({ password, country, firstname, lastname, phone })
+		await User.create({ firstname, lastname, email, password, phone, country });
 
 		res.status(201).json({ success: true, user: firstname });
 	} catch (err){
@@ -17,7 +17,7 @@ async function signUp(req, res){
 async function signIn(req, res) {
 	const { email, password } = req.body;
 	try {
-		const login = await User.login({ email, password })
+		const login = await User.login( email, password )
 
 		res.status(200).json({ success: true, user: login.firstname })
 	} catch (err) {
@@ -28,9 +28,9 @@ async function signIn(req, res) {
 };
 
 async function update(req, res){
-	const { email, password } = req.body;
+	const { email, password, newPassword } = req.body;
 	try {
-		const updatedUser = await User.updateEmail(email, password);
+		const updatedUser = await User.updateEmail(email, password, newPassword);
 
 		res.status(200).json({ success : true, user: updatedUser.firstname})
 	} catch(err){

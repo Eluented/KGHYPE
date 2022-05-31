@@ -16,15 +16,15 @@ module.exports = class User {
         return new Promise(async (resolve, reject) => {
             try {
                 // checking if email already exists 
-                const oldUser = await User.findOne({ email });
+                const oldUser = await User.findByEmail( data.email );
 
-                console.log({email}) // remove later
+                console.log(data.email) // remove later
                 if (oldUser) {
                     resolve ("This email address is already being used");
                 } else {
                     const user = await Schema.User.create(data);
 
-                    resolve(User(user));
+                    resolve(new User(user));
                 }
             } catch (err) {
                 console.log(err)
@@ -36,25 +36,25 @@ module.exports = class User {
     static async login(email, password) {
         return new Promise(async (resolve, reject) =>{
             try {
-                const user = await this.findByEmail(email);
+                const user = await User.findByEmail(email);
 
                 // if there is an email - compares password with encrypted password in db
                 if (user) {
                     const auth = await bcrypt.compare(password, user.password)
-
                     if (auth) {
-                        resolve(User(user))
+                        resolve(new User(user))
+                    } else {
+                        throw Error('Password incorrect')
                     }
-                    throw Error('Password incorrect')
-                }
+                };
 
                 resolve(user);
             } catch (err) {
-                reject(`User with email: ${email} not found: ${err}`);
+                reject(`User with email: ${data.email} not found: ${err}`);
 
                 console.log(err)
-            }
-        })
+            };
+        });
     };
 
     // helper async function for login
@@ -70,30 +70,36 @@ module.exports = class User {
         });
     };
 
-    static updateEmail(email, password) {
+    static updateEmail(email, password, newPassword) {
         return new Promise(async (resolve, reject) => {
           try {
             const user = await this.findByEmail(email);
-            
+            console.log(user)
             // if there is an email - compares password with encrypted password in db
             if (user) {
                 const auth = await bcrypt.compare(password, user.password)
                 if (auth) {
+                    // hashing password before updating it 
+                    // (schema middleware doesnt do it when it updates)
+                    const salt = await bcrypt.genSalt();
+                    const hashedPassword = await bcrypt.hash(newPassword, salt);  
+
                     const updateUser = await Schema.User
                     .updateOne(
                         { email: email },
-                        { $set: password }
-                    );
+                        { $set: { password: hashedPassword } }
+                    )
 
-                    resolve(User(updateUser));
-                }
-                throw Error('Password Incorrect');
-            }
+                    resolve(new User(updateUser));
+                } else {
+                    throw Error('Password Incorrect');
+                } 
+            };
           } catch (err) {
             reject(`Error Updating User: ${err}`);
 
             console.log(err)
-          }
+          };
         });
       }
 

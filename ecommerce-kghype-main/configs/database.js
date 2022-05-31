@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
-const { DB_PATH } = require('../configs/app-config');
+
+const DB_PATH = "mongodb+srv://jeffrey:adonis@cluster0.aruyj.mongodb.net/?retryWrites=true&w=majority"
 
 exports.connect = () => {
     // DB Connect
 
-    mongoose.connect(DB_PATH, {
-        useNewUrlParser: true, useUnifiedTopology: true
-    })
-
+    mongoose.connect(DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
     //Get the default connection
     var db = mongoose.connection;
 

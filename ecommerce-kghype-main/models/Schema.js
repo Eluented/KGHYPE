@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     email:{
         type: String,
         required: [true, 'Email is required'],
@@ -55,13 +55,23 @@ const ProductSchema = new mongoose.Schema({
 });
 
 // mongoose middleware - hashes + salts password before it enters
-userSchema.pre("save", async function(next){
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);  
-    next();
+UserSchema.pre('save', function (next) {
+    const user = this
+    if (user.isModified('password')) {
+      bcrypt.genSalt(10, function (err, salt) {
+        if (err) return next(err)
+        bcrypt.hash(user.password, salt, function (err, hash) {
+          if (err) return next(err)
+          user.password = hash
+          next()
+        })
+      })
+    } else {
+      next()
+    }
 })
 
-userSchema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator);
 
 const User = mongoose.model("User", UserSchema);
 const Product = mongoose.model("Product", ProductSchema);
