@@ -89,7 +89,7 @@ module.exports = class User {
                         { email: email },
                         { $set: { password: hashedPassword } }
                     )
-
+                    
                     resolve(new User(updateUser));
                 } else {
                     throw Error('Password Incorrect');
