@@ -13,6 +13,7 @@ app.use(express.json());
 
 // Routes
 app.get('/', (req, res) => res.send('KGHYPE Backend'));
+
 app.use('/user', userRoute);
 app.use('/cp', adminRoute);
 app.use('/product', productRoute);
