@@ -10,12 +10,13 @@ const env = require('./configs/env-configs')
 env.config();
 // DB Connect
 DB.connect();
+const port = process.env.PORT || 3001;
 
 env.provider.use('/user', userRoute);
 env.provider.use('/cp', adminRoute);
 env.provider.use('/product', productRoute);
 
 // starting the server
-env.provider.listen(3001, () => {
-  console.log('listening on port 3001');
+env.provider.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
