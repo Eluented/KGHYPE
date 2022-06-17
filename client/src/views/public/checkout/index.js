@@ -197,11 +197,6 @@ export default function CheckoutPage() {
 
 
                     <PaymentOptionCard>
-                        <ImageWrapper src={Bitcoin} alt="bitcoin" />
-                        <TextWrapper>
-                            Pay with Wallet.If the amount is less than the order amount due to exchange rate fluctuations, the payment will fall and it will be topped up to your Superbuy account balance.No withdrawal if paying with this.For any other questions, feel free to contact Customer Service.                        </TextWrapper>
-                    </PaymentOptionCard>
-                    <PaymentOptionCard>
                         <ImageWrapper src={Airpal} alt="bitcoin" />
                         <TextWrapper>
                             The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier
@@ -250,7 +245,7 @@ export default function CheckoutPage() {
                     </div>
 
                     <PaymentOptionCard onClick={handlecoinbase}>
-                        <ImageWrapper style={{ width: "100px" }} src={"https://play-lh.googleusercontent.com/PjoJoG27miSglVBXoXrxBSLveV6e3EeBPpNY55aiUUBM9Q1RCETKCOqdOkX2ZydqVf0"} alt="bitcoin" />
+                        <ImageWrapper style={{ width: "50px", height:"50px" }} src={Bitcoin}   alt="bitcoin" />
                         <TextWrapper>
                             Pay with crypto
                         </TextWrapper>
