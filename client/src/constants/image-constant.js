@@ -28,53 +28,57 @@ import Avatar from 'assets/image/kghype_avatar.png';
 import Bitcoin from 'assets/image/kghype_bitcoin.png';
 import Airpal from 'assets/image/kghype_airpal.png';
 import Paypal from 'assets/image/kghype_paypal.png';
+import Venmo from 'assets/image/kghype_paypal.png';
+import CahsApp from 'assets/image/kghype_paypal.png';
+import CahsAppQR from 'assets/image/kghype_paypal.png';
+import VenmoQR from 'assets/image/kghype_paypal.png';
 import Transfer from 'assets/image/kghype_transfer.png';
 import BankTransfer from 'assets/image/kghype_bank_transfer.png';
 import SearchProduct from 'assets/image/kghype_product_search.png';
 import Landing from 'assets/image/kghype_landing.png';
 
 export const SharedImage = {
-    Logo:Logo,
-    UserIcon:UserIcon,
-    SearchIcon:SearchIcon,
-    CartIcon:CartIcon,
-    Coupon:Coupon,
-    Notfound:Notfound,
-    Profile:Profile,
-    Product:Product,
-    SearchIconGray:SearchIconGray,
-    Bg:Bg,
-    Avatar:Avatar,
-    Landing:Landing
+    Logo: Logo,
+    UserIcon: UserIcon,
+    SearchIcon: SearchIcon,
+    CartIcon: CartIcon,
+    Coupon: Coupon,
+    Notfound: Notfound,
+    Profile: Profile,
+    Product: Product,
+    SearchIconGray: SearchIconGray,
+    Bg: Bg,
+    Avatar: Avatar,
+    Landing: Landing
 }
 
 export const CategoryImage = {
-    Cloth:Cloth,
-    Foot:Foot,
-    Handbag:Handbag,
-    Watch:Watch,
-    Jewelry:Jewelry,
-    Baby:Baby,
-    Phone:Phone,
-    Desktop:Desktop,
-    Home:Home,
-    Food:Food
+    Cloth: Cloth,
+    Foot: Foot,
+    Handbag: Handbag,
+    Watch: Watch,
+    Jewelry: Jewelry,
+    Baby: Baby,
+    Phone: Phone,
+    Desktop: Desktop,
+    Home: Home,
+    Food: Food
 }
 
 export const StepImage = {
-    Step1:Step1,
-    Step2:Step2,
-    Step3:Step3,
-    Step4:Step4,
-    Step5:Step5,
-    Step6:Step6
+    Step1: Step1,
+    Step2: Step2,
+    Step3: Step3,
+    Step4: Step4,
+    Step5: Step5,
+    Step6: Step6
 }
 
 export const IconImage = {
-    Bitcoin:Bitcoin,
-    Paypal:Paypal,
-    Airpal:Airpal,
-    Transfer:Transfer,
-    BankTransfer:BankTransfer,
-    SearchProduct:SearchProduct
+    Bitcoin: Bitcoin,
+    Paypal: Paypal,
+    Airpal: Airpal,
+    Transfer: Transfer,
+    BankTransfer: BankTransfer,
+    SearchProduct: SearchProduct
 }

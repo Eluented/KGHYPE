@@ -3,12 +3,12 @@ import { UpperCase } from 'utilities';
 import { Heading } from './heading';
 
 const fontStyle = {
-    fontSize:"14px",
-    color:"#72727E",
-    textAlign:"left"
+    fontSize: "14px",
+    color: "#72727E",
+    textAlign: "left"
 }
 
-export default function Input({ label=null, style, placeholder = "", onChange, name, type="text", value, id, ref }) {
+export default function Input({ label = null, style, placeholder = "", onChange, name, type = "text", value, id, ref }) {
     return (
         <div>
             <label>
@@ -16,7 +16,7 @@ export default function Input({ label=null, style, placeholder = "", onChange, n
                     {UpperCase(label)}
                 </Heading>
             </label>
-            <InputWrapper style={style} id={id} placeholder={placeholder} type={type} onChange={onChange} name={name} value={value}/>
+            <InputWrapper style={style} id={id} placeholder={placeholder} type={type} onChange={onChange} name={name} value={value} />
         </div>
     )
 }

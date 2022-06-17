@@ -17,7 +17,7 @@ export const searchProduct = async (params) => {
     const platfo = ChooseURL(params.search);
     let flag = 0;
     let options = {};
-    if(url) {
+    if (url) {
         let id = getId(params.search);
         console.log(platfo);
         options = {
@@ -28,16 +28,18 @@ export const searchProduct = async (params) => {
     } else {
         options = {
             method: 'GET',
-            url: `https://api-gw.onebound.cn/taobao/item_search/?key=t8607980302&&q=${params.search}&start_price=0&end_price=0&page=1&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=&&lang=en&secret=20220515`
+            url: `https://api-gw.onebound.cn/taobao/item_search/?key=t8607980302&&q=${params.search}&start_price=0&end_price=0&page=2&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=&&lang=en&secret=20220515`
         };
         flag = 2;
     }
 
     const result = await axios.request(options);
-    if(result.status === 200){
+
+    if (result.status === 200) {
+        console.log(result.data);
         return {
-            flag:flag,
-            data:result.data
+            flag: flag,
+            data: result.data
         };
     }
 }

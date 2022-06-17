@@ -23,8 +23,10 @@ export const MANUAL_PREFIX = '/manual';
 export const USER_PREFIX = '/user';
 export const GET_PREFIX = '/get';
 export const DELETE_PREFIX = '/delete';
-export const DETAIL_PREFIX= '/detail';
+export const DETAIL_PREFIX = '/detail';
 export const UPDATE_PREFIX = '/update';
+export const BANK_PREFIX = '/bank';
+export const MANUAL_PRODUCT_DETAIL_PREFIX = '/manual-product';
 
 export const settings = {
   dots: true,

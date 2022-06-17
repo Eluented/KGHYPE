@@ -19,24 +19,36 @@ const ContainerStyle = {
 }
 
 
-function ListCard({ description, price, img, onClick }) {
+
+
+function ListCard({ title, description, price, img, onClick }) {
+
+    var min = 1;
+    var max = 100;
+    var rand = min + (Math.random() * (max - min));
+
     return (
         <li>
             <Card onClick={onClick}>
+
                 <ImageWrapper src={img} alt="product-image" className="product-image" />
                 <p>
                     {
                         description
                     }
                 </p>
+                <h3>{title}</h3>
+                <br />
                 <InfoWrapper>
+
                     <Heading>
+
                         {
                             price
                         }
                     </Heading>
                     <span>
-                        2 people pay
+                        {parseInt(rand)} people pay
                     </span>
                 </InfoWrapper>
             </Card>
@@ -54,14 +66,12 @@ export default function ProductSearch() {
         // setProductData(data);
         setProductData([...location.state.item.items.item]);
     }, [])
-    
+
     const setData = (e) => {
         setFormData({ ...formData });
     }
 
     const toDetail = async (item) => {
-        // await console.log("productData:", productData[idx].title);
-        // console.log("item",item);
         history.push({
             pathname: PUBLIC_PREFIX + PRODUCT_DETAIL_PREFIX,
             state: {
@@ -72,7 +82,7 @@ export default function ProductSearch() {
 
     return (
         <Container style={ContainerStyle}>
-            <Heading style={HeadingStyle}>All Categories : 3210232</Heading>
+            <Heading style={HeadingStyle}>Search Results : 3210232</Heading>
             <ToolWrapper>
                 <Input placeholder='US Dollar' />
                 <Input placeholder='US Dollar' />
@@ -81,7 +91,7 @@ export default function ProductSearch() {
                 {productData.map((item, index) => {
                     console.log(item);
                     return (
-                        <ListCard description={item.description} price={item.price} onChange={(e) => setData(e)} onClick={() => toDetail(item)} img={item.pic_url} key={index} />
+                        <ListCard title={item.title} description={item.description} price={item.price} onChange={(e) => setData(e)} onClick={() => toDetail(item)} img={item.pic_url} key={index} />
                     )
                 })}
             </CardWrapper>
