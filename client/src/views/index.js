@@ -1,5 +1,4 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { ERROR_PREFIX, PUBLIC_PREFIX, ADMIN_PREFIX, LOGIN_PREFIX } from 'configs/app-config';
 import PublicLayout from 'layouts/public-layout';
 import AppLayout from 'layouts/app-layout';
 
@@ -7,16 +6,16 @@ export default function Views() {
     return(
         <Switch>
             <Route exact path="/">
-                <Redirect to={PUBLIC_PREFIX} />
+                <Redirect to='/p' />
             </Route>
-            <Route path={PUBLIC_PREFIX}>
+            <Route path='/p'>
                 <PublicLayout/>
             </Route>
-            <Route path={ADMIN_PREFIX}>
+            <Route path="/cp">
                 <AppLayout/>
             </Route>
-            <Route path={ERROR_PREFIX}>
-                <Redirect to={PUBLIC_PREFIX} />
+            <Route path="/*">
+                <Redirect to='/p' />
             </Route>
         </Switch>
     )

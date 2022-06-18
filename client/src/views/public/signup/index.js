@@ -1,4 +1,5 @@
-import { Heading } from 'components/heading'
+import React from 'react';
+import { useHistory } from 'react-router';
 import { Box } from "@mui/system";
 import ImageWrapper from 'components/image-wrapper'
 import styled from 'styled-components'
@@ -19,24 +20,14 @@ import {
 } from "@mui/material";
 
 import MuiPhoneNumber from 'material-ui-phone-number';
+import './index.css'
 
-const ContainerStyle = {
-    display: "flex",
-    flexDirection: "row",
-    flexFlow: "wrap",
-    justifyContent: "center",
-    padding: "50px 20px"
-}
 
 const SignUpButton = {
     marginTop: "50px"
 }
 
-const HeadingStyle = {
-    color: "#072A48",
-    textAlign: "left",
-    paddingBottom: "30px"
-}
+
 
 const { Coupon } = SharedImage;
 
@@ -58,12 +49,11 @@ export default function SignUpPage() {
     }
 
     return (
-        <Container style={ContainerStyle}>
-            <CouponWrapper>
-                <ImageWrapper src={Coupon} alt="coupon" />
-            </CouponWrapper>
+        <div className='container-style'>        
             <FormWrapper>
 
+                <p className='create-account'>Create Your KGHYPE Account</p>
+                <p className='have-account'>Already have an account? <a >Sign in</a></p>
                 <Box sx={{ mt: "2%", mb: "2%" }} width="100%">
                     <FormControl fullWidth>
                         <TextField
@@ -132,7 +122,11 @@ export default function SignUpPage() {
 
                 <Button fullWidth>Sign Up</Button>
             </FormWrapper>
-        </Container>
+
+            <CouponWrapper>
+                <ImageWrapper src={Coupon} alt="coupon" />
+            </CouponWrapper>
+        </div>
     )
 }
 

@@ -1,0 +1,25 @@
+
+.container-style {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+.create-account {
+    color: #072A48;
+    text-align: left;
+    font-weight: 1000;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 1px;
+}
+
+.have-account {
+    margin-top:1px;
+    text-align: center;
+    color: #072A48;
+    font-size: 1.2em;
+}
+
