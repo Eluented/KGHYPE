@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router';
 import { Box } from "@mui/system";
 import ImageWrapper from 'components/image-wrapper'
 import styled from 'styled-components'
@@ -17,8 +16,9 @@ import {
     Typography,
     TextField,
     Container,
+    NativeSelect,
 } from "@mui/material";
-
+import countryList from './countryList.js'
 import MuiPhoneNumber from 'material-ui-phone-number';
 import './index.css'
 
@@ -122,6 +122,22 @@ export default function SignUpPage() {
 
                 <Button fullWidth>Sign Up</Button>
             </FormWrapper>
+            
+
+            <FormControl fullWidth style={{ marginTop: "1.2rem" }}>
+    <InputLabel variant="standard" htmlFor="uncontrolled-native">
+        Select A Country
+    </InputLabel>
+    <NativeSelect defaultValue={1} inputProps={{
+                      name: "country",
+                      id: "uncontrolled-native"}}>
+                   {countryList.map((country, index) => {
+                       return <option value={index + 1} key={index}>
+                                  {country}
+                              </option>;
+                    })}
+    </NativeSelect>
+</FormControl>
 
             <CouponWrapper>
                 <ImageWrapper src={Coupon} alt="coupon" />
