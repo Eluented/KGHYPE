@@ -4,14 +4,14 @@ import ImageWrapper from './image-wrapper';
 
 const { SearchIconGray } = SharedImage;
 
-export default function SearchBox({onChange, onClick, name="search"}) {
+export default function SearchBox({ onChange, onClick, name = "search" }) {
 
     return (
         <InputWrapper>
             <IconWrapper>
                 <ImageWrapper src={SearchIconGray} alt="search-icon-gray" />
             </IconWrapper>
-            <SearchInput onChange={onChange} name={name} type="text" placeholder='Taobao Keywords, Product ID or URL' />
+            <SearchInput onChange={onChange} name={name} type="text" placeholder='Buy Anything From Weidian,Taobao And 1688' />
             <SearchBtn onClick={onClick}>
                 Search
             </SearchBtn>
@@ -21,7 +21,7 @@ export default function SearchBox({onChange, onClick, name="search"}) {
 
 const InputWrapper = styled.div` 
     background-color:white;
-    height:50px;
+    height:80px;
     width:100%;
     max-width:1200px;
     display:flex;
@@ -43,7 +43,7 @@ const SearchInput = styled.input`
     width:100%;
     border-radius:99999px;
     text-indent:10px;
-    font-size:18px;
+    font-size:25px;
 `
 
 const SearchBtn = styled.button`

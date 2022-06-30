@@ -28,7 +28,7 @@ export const searchProduct = async (params) => {
     } else {
         options = {
             method: 'GET',
-            url: `https://api-gw.onebound.cn/taobao/item_search/?key=t8607980302&&q=${params.search}&start_price=0&end_price=0&page=2&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=&&lang=en&secret=20220515`
+            url: `https://api-gw.onebound.cn/taobao/item_search/?key=t8607980302&&q=${params.search}&start_price=0&end_price=0&page=${Math.floor(Math.random() * 5)}&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=&&lang=en&secret=20220515`
         };
         flag = 2;
     }

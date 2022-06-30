@@ -27,6 +27,9 @@ export const DETAIL_PREFIX = '/detail';
 export const UPDATE_PREFIX = '/update';
 export const BANK_PREFIX = '/bank';
 export const MANUAL_PRODUCT_DETAIL_PREFIX = '/manual-product';
+export const HISTORY_PREFIX = '/history';
+export const HISTORYCART_PREFIX = '/historycart';
+export const CONFIRM_PREFIX = '/confirm';
 
 export const settings = {
   dots: true,

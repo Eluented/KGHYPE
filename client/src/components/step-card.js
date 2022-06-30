@@ -1,26 +1,27 @@
 import styled from 'styled-components';
 import { Heading } from './heading';
 
-export default function StepCard ({text = "Create Account",icon=null}) {
-    return(
+export default function StepCard({ text = "Create Account", icon = null }) {
+    return (
         <CardWrapper>
             {
-                icon !==null ? (
+                icon !== null ? (
                     <IconWrapper></IconWrapper>
                 ) : null
             }
             <Heading>{text}</Heading>
-            <TextWrapper>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier.</TextWrapper>
+            <TextWrapper>.</TextWrapper>
         </CardWrapper>
     )
 }
 
 const CardWrapper = styled.div`
+    border-radius: 10%;
     color:white;
-    background-color:rgba(255,255,255,.15);
+    background-color:#072A48;
     padding:15px;
     font-family:Open Sans;
-    max-width:240px;
+    max-width:200px;
     display:flex;
     flex-direction:column;
     align-items:center;

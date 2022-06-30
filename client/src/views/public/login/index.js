@@ -9,8 +9,16 @@ import { useState } from 'react';
 import { signIn } from 'actions/users';
 import { signed } from 'store/actions/actions';
 import { connect } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 import { NotifyFail } from 'utilities';
+
+
+//Firebase 
+
+import { auth } from 'firebase.js';
+import { db } from 'firebase.js';
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+
 
 const HeadingStyle = {
     color: "#072A48",
@@ -25,21 +33,35 @@ const LoginButton = {
 }
 
 function LoginPage(props) {
-    const history = useHistory();
-    const [formData, setFormData] = useState({});
+    const [data, setData] = useState({
+        mail: "",
+        password: "",
+    });
 
-    const setData = (e) => {
-        setFormData({...formData, [e.target.name]:e.target.value})
+    onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser)
+            window.location = "/p/profile"
+
+    })
+
+    //Values
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newData = { ...data };
+        newData[e.target.id] = e.target.value;
+        setData(newData);
+        console.log(newData);
     }
 
-    const toSignIn = async (e) => {
+    const login = async (e) => {
         e.preventDefault();
-        const result = await signIn(formData);
-        if(result.data.data){
-            props.userSigned();
-            history.push('/');
-        } else {
-            NotifyFail(result.data.msg);
+        try {
+            const user = await signInWithEmailAndPassword(auth, data.mail, data.password);
+
+            window.location = "/p/profile";
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -47,8 +69,8 @@ function LoginPage(props) {
         <Container>
             <ContentWrapper>
                 <FormWrapper>
-                    <Input label="Email address" name="email" onChange={e => setData(e)} />
-                    <Input label="Password" type='password' name="password" onChange={e => setData(e)}/>
+                    <Input label="Email address" name="email" value={data.mail} id="mail" onChange={e => handleSubmit(e)} />
+                    <Input label="Password" type='password' name="password" value={data.password} id="password" onChange={e => handleSubmit(e)} />
                     <Row>
                         <span>
                             Forgot password
@@ -57,7 +79,7 @@ function LoginPage(props) {
                             Sign up
                         </Link>
                     </Row>
-                    <Button text="Login" style={LoginButton} onClick={e => toSignIn(e)} />
+                    <Button text="Login" style={LoginButton} onClick={login} />
                 </FormWrapper>
                 <Wrapper>
                     <Heading style={HeadingStyle}>
@@ -77,14 +99,14 @@ function LoginPage(props) {
 
 
 const mapStateToProps = state => {
-    return{
+    return {
         user__state: state.userState.user__state
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-      userSigned: () => dispatch(signed())
+        userSigned: () => dispatch(signed())
     }
 }
 

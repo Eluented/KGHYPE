@@ -6,39 +6,73 @@ import ImageWrapper from 'components/image-wrapper';
 import Input from 'components/input';
 import Button from 'components/button';
 
+import { useState } from 'react';
+
+//Firebase 
+
+import { auth } from 'firebase.js';
+import { db } from 'firebase.js';
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+
 const HeadingStyle = {
-    textAlign:"left",
-    margin:"0px"
+    textAlign: "left",
+    margin: "0px"
 }
 
 const HeadingStyle2 = {
-    fontSize:"18px",
-    fontWeight:"400"
+    fontSize: "18px",
+    fontWeight: "400"
 }
 
 const ContainerStyle = {
-    padding:"50px 20px",
-    display:"flex",
-    flexDirection:"row",
-    flexFlow:"wrap"
+    padding: "50px 20px",
+    display: "flex",
+    flexDirection: "row",
+    flexFlow: "wrap"
 }
 
 const ButtonStyle = {
-    marginTop:"50px"
+    marginTop: "50px"
 }
 
 const { Profile } = SharedImage;
 
-export default function ProfilePage () {
-    return(
+export default function ProfilePage() {
+
+    const [nameText, setNameText] = useState([]);
+    const [mailText, setMailText] = useState([]);
+
+    onAuthStateChanged(auth, async (currentUser) => {
+        if (!currentUser) {
+            window.location = "/p/login";
+        }
+        else {
+            const usersRef = await db.ref("users");
+            usersRef.once('value', function (snapshot) {
+                snapshot.forEach(function (usersSnapshot) {
+                    var usersData = usersSnapshot.val();
+
+
+                    if (usersData.mail == currentUser.email) {
+
+                        setNameText(`${usersData.fName} ${usersData.lName} `);
+                        setMailText(usersData.mail);
+                    }
+
+                });
+            });
+        }
+    });
+
+    return (
         <Container style={ContainerStyle}>
             <SideBar>
                 <Heading style={HeadingStyle}>
-                    Settings
+                    Options
                 </Heading>
                 <SideMenu>
-                    <li>Profile Setting</li>
-                    <li>Payment Setting</li>
+                    <li>Profile</li>
+                    <li>Payment</li>
                     <li>Parcels</li>
                     <li>Wallet</li>
                     <li>Favorite</li>
@@ -47,24 +81,24 @@ export default function ProfilePage () {
             <Content>
                 <Heading style={HeadingStyle}>Profile Setting</Heading>
                 <ProfileWrapper>
-                    <ImageWrapper src={Profile} alt="profile"/>
+                    <ImageWrapper src={Profile} alt="profile" />
                     <TextWrapper>
-                        <UserInfoText>
-                            John Doe
+                        <UserInfoText id='profile-name'>
+                            {nameText}
                         </UserInfoText>
-                        <UserInfoText style={HeadingStyle2}>
-                            goldstardev2002@gmail.com
+                        <UserInfoText id='profile-email' style={HeadingStyle2}>
+                            {mailText}
                         </UserInfoText>
                         <UserInfoText style={HeadingStyle2}>
                             Tokyo, Japan
                         </UserInfoText>
                     </TextWrapper>
                 </ProfileWrapper>
-                <Input label="Email address"/>
-                <Input label="Old Password"/>
-                <Input label="New password"/>
-                <Input label="Phone Number"/>
-                <Button text="Save" style={ButtonStyle}/>
+                <Input label="Email address" />
+                <Input label="Old Password" />
+                <Input label="New password" />
+                <Input label="Phone Number" />
+                <Button text="Save" style={ButtonStyle} />
             </Content>
         </Container>
     )

@@ -8,8 +8,12 @@ import React from "react";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useEffect, useState } from "react";
-import CoinbaseCommerceButton from 'react-coinbase-commerce';
-import 'react-coinbase-commerce/dist/coinbase-commerce-button.css';
+//Firebase 
+import { auth } from 'firebase.js';
+import { db } from 'firebase.js';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+
+import GooglePayButton from "@google-pay/button-react";
 
 
 import {
@@ -70,6 +74,61 @@ const handleSubmit = (stripe, elements) => async () => {
         // ... SEND to your API server to process payment intent
     }
 };
+function history() {
+
+    onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+            //Add to cart
+            const usersRef = await db.ref("users");
+            usersRef.once('value', function (snapshot) {
+                snapshot.forEach(function (usersSnapshot) {
+                    var usersData = usersSnapshot.val();
+
+
+                    if (usersData.mail == currentUser.email) {
+                        var ref = db.ref(`users/${usersSnapshot.key}/cart`);
+                        ref.on("value", function (snapshot) {
+                            console.log(snapshot.val());
+
+                            // generate random number between 10000 and 10000000
+                            var randomNumber = Math.floor(Math.random() * (10000000 - 10000 + 1)) + 10000;
+                            var orderId = randomNumber.toString();
+                            const usersRef = db.ref('users/' + usersSnapshot.key + '/history/' + orderId);
+                            var today = new Date();
+                            var date_order = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+                            usersRef.update({
+                                order_time: date_order,
+                                order_number: orderId,
+                                total_price: '324',
+                                order_status: "Pending",
+
+                            })
+
+                            for (var i in snapshot.val()) {
+                                const usersRef = db.ref('users/' + usersSnapshot.key + '/history/' + orderId + '/products/' + i);
+                                usersRef.update({
+                                    product: snapshot.val()[i],
+                                }).then(() => {
+                                    window.location = "/p/confirm"
+                                })
+                            }
+
+                        }
+                            , function (errorObject) {
+                                console.log("The read failed: " + errorObject.code);
+                            }
+                        );
+                    }
+
+                });
+            });
+
+        }
+    })
+
+
+}
 
 const PaymentForm = () => {
     const stripe = useStripe();
@@ -168,11 +227,6 @@ export default function CheckoutPage() {
         setCashappIsActive(current => !current);
     };
 
-    const [coinbase, setcoinbaseIsActive] = useState(true);
-
-    const handlecoinbase = event => {
-        setcoinbaseIsActive(current => !current);
-    };
     return (
         <>
             <Container style={ContainerStyle}>
@@ -180,32 +234,42 @@ export default function CheckoutPage() {
                     <PaymentForm />
                 </Elements>
 
+
                 <Heading style={HeadingStyle}>CheckOut Cart</Heading>
                 <TransferListWrapper>
-                    <TransferItem>
-                        <ImageWrapper src={Transfer} alt="transfer" />
-                        <p>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easierThe CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier</p>
-                        <Button style={ButtonStyle} text='Top Up Offers' />
-                    </TransferItem>
-                    <TransferItem>
+
+                    <TransferItem style={{ width: "100%" }}>
                         <ImageWrapper src={BankTransfer} alt="transfer" />
                         <p>Overseas T/T transfer will incur a handling fee of 65 HKD. The remitter need to pay the handling fee in full. Moreover, the remitted amount credited to the bank after deducting the handling fee shall equal the exact payable amount. </p>
                         <Button style={ButtonStyle} text='Top Up Offers' />
                     </TransferItem>
                 </TransferListWrapper>
+
+
+
                 <OtherPaymentWrapper>
 
 
                     <PaymentOptionCard>
+                        <ImageWrapper src={Bitcoin} alt="bitcoin" />
+                        <TextWrapper>
+                            Pay with Wallet.If the amount is less than the order amount due to exchange rate fluctuations, the payment will fall and it will be topped up to your Superbuy account balance.No withdrawal if paying with this.For any other questions, feel free to contact Customer Service.                        </TextWrapper>
+                    </PaymentOptionCard>
+
+                    <PaymentOptionCard style={{ display: "none" }}>
                         <ImageWrapper src={Airpal} alt="bitcoin" />
                         <TextWrapper>
                             The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier
                         </TextWrapper>
                     </PaymentOptionCard>
-                    <PaymentOptionCard onClick={handleCLick}>
+
+
+
+                    <PaymentOptionCard style={{ display: "none" }} onClick={handleCLick}>
                         <ImageWrapper src={Paypal} alt="bitcoin" />
                         <TextWrapper>
-                            Cover 202 countries or regions | 25 currencies are supported, and currency exchang...                        </TextWrapper>
+                            Cover 202 countries or regions | 25 currencies are supported, and currency exchang...
+                        </TextWrapper>
                     </PaymentOptionCard>
 
                     <div className={isActive ? "hidden" : ""} style={{ maxWidth: "900px", minHeight: "200px", paddingLeft: "" }}>
@@ -235,35 +299,97 @@ export default function CheckoutPage() {
                     </div>
 
                     <PaymentOptionCard onClick={handleCashapp}>
-                        <ImageWrapper style={{ width: "100px" }} src={"https://logolook.net/wp-content/uploads/2021/07/Cash-App-Logo.png"} alt="bitcoin" />
+                        <ImageWrapper style={{ width: "50px" }} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Square_Cash_app_logo.svg/1200px-Square_Cash_app_logo.svg.png"} alt="bitcoin" />
                         <TextWrapper>
                             Scan the QR Code to order using CahsApp
                         </TextWrapper>
                     </PaymentOptionCard>
+
                     <div className={cashappIsActive ? "hidden" : ""} style={{ maxWidth: "900px", minHeight: "200px", paddingLeft: "" }}>
                         <img src={"https://media.discordapp.net/attachments/841376507792064623/984441944476373022/image.png?width=324&height=701"}></img>
                     </div>
 
-                    <PaymentOptionCard onClick={handlecoinbase}>
-                        <ImageWrapper style={{ width: "50px", height:"50px" }} src={Bitcoin}   alt="bitcoin" />
+                    <PaymentOptionCard onClick={handleCashapp}>
+                        <ImageWrapper style={{ width: "50px" }} src={"https://logodownload.org/wp-content/uploads/2022/03/zelle-logo-3.png"} alt="bitcoin" />
                         <TextWrapper>
-                            Pay with crypto
+                            You can also pay easily trough Zelle
                         </TextWrapper>
                     </PaymentOptionCard>
-                    <div className={coinbase ? "hidden" : ""}>
-                    <CoinbaseCommerceButton checkoutId={'8e7de7c7-73af-4589-a15a-a6eb688709bb'} styled="yes"/>
+
+                    <div className={cashappIsActive ? "hidden" : ""} style={{ maxWidth: "900px", minHeight: "200px", paddingLeft: "" }}>
+                        <img src={"https://media.discordapp.net/attachments/841376507792064623/984441944476373022/image.png?width=324&height=701"}></img>
                     </div>
+
+                    <PaymentOptionCard>
+                        <ImageWrapper style={{ width: "100px" }} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/2560px-Apple_Pay_logo.svg.png"} alt="bitcoin" />
+                        <TextWrapper>
+                            Pay your products using Apple Pay
+                        </TextWrapper>
+                    </PaymentOptionCard>
+
+                    <PaymentOptionCard>
+                        <GooglePayButton
+                            environment="TEST"
+                            paymentRequest={{
+                                apiVersion: 2,
+                                apiVersionMinor: 0,
+                                allowedPaymentMethods: [
+                                    {
+                                        type: 'CARD',
+                                        parameters: {
+                                            allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                            allowedCardNetworks: ['MASTERCARD', 'VISA'],
+                                        },
+                                        tokenizationSpecification: {
+                                            type: 'PAYMENT_GATEWAY',
+                                            parameters: {
+                                                gateway: 'example',
+                                                gatewayMerchantId: 'exampleGatewayMerchantId',
+                                            },
+                                        },
+                                    },
+                                ],
+                                merchantInfo: {
+                                    merchantId: '12345678901234567890',
+                                    merchantName: 'Demo Merchant',
+                                },
+                                transactionInfo: {
+                                    totalPriceStatus: 'FINAL',
+                                    totalPriceLabel: 'Total',
+                                    totalPrice: '100.00',
+                                    currencyCode: 'USD',
+                                    countryCode: 'US',
+                                },
+                            }}
+                            onLoadPaymentData={paymentRequest => {
+                                console.log('load payment data', paymentRequest);
+                            }}
+                        />
+                        <TextWrapper>
+                            Pay your products using G-Pay
+                        </TextWrapper>
+                    </PaymentOptionCard>
+
+
+
+                    <PaymentOptionCard>
+                        <ImageWrapper style={{ width: "50px" }} src={"https://www.freeiconspng.com/thumbs/bank-icon/bank-icon-5.png"} alt="bitcoin" />
+
+                        <TextWrapper>
+                            Your balance is 500$
+                        </TextWrapper>
+                    </PaymentOptionCard>
+
+
+
                 </OtherPaymentWrapper>
 
 
 
 
                 <StatusWrapper>
-                    <BalanceWrapper>
-                        <Heading>Balance:</Heading>
-                        <Heading>$450</Heading>
-                    </BalanceWrapper>
-                    <Button text='Submit' />
+
+                    <Button text='Submit' onClick={history} />
                 </StatusWrapper>
             </Container>
         </>
@@ -271,49 +397,51 @@ export default function CheckoutPage() {
 }
 
 const TransferListWrapper = styled.div`
-    display:flex;
-    flex-direction:row;
-    gap:100px;
-    padding-top:50px;
+display:flex;
+flex-direction:row;
+gap:100px;
+padding-top:50px;
 `
 
 const TransferItem = styled.div`
     width:100%;
-    max-width:400px;
+    max-width:100%;
+    background: #EEF2F5;
+    padding: 20px;
+    border-radius: 10px
 `
 
 const OtherPaymentWrapper = styled.div`
-    padding-top:100px;
-    padding-bottom:50px;
-    display:flex;
-    flex-direction:column;
-    gap:30px;
+padding-top:100px;
+padding-bottom:50px;
+display:flex;
+flex-direction:column;
+gap:30px;
 `
 
 const PaymentOptionCard = styled.div`
-    background-color:#EEF2F5;
-    padding:20px;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
+background-color:#EEF2F5;
+border-radius: 10px;
+padding:20px;
+display:flex;
+flex-direction:row;
+align-items:center;
+justify-content:space-between;
 `
 
 const TextWrapper = styled.div`
 `
 
-
-
 const StatusWrapper = styled.div`
-    padding-bottom:100px;
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
+padding-bottom:100px;
+display:flex;
+flex-direction:row;
+align-items:center;
+justify-content:space-between;
 `
 
 const BalanceWrapper = styled.div`
-    display:flex;
-    flex-direction:row;
-    gap:10px;
+display:flex;
+flex-direction:row;
+gap: 10px;
 `

@@ -6,206 +6,223 @@ import ImageWrapper from "components/image-wrapper";
 import NumberBox from "components/number-box";
 import { SharedImage } from "constants/image-constant";
 import Button from 'components/button';
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import axios from "axios";
+
+import dummy from './shipping_dummy'
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    CircularProgress,
+    Typography,
+    TextField,
+    NativeSelect,
+} from "@mui/material";
+import React, { useState, useEffect } from 'react';
+
+//Firebase 
+import { auth } from 'firebase.js';
+import { db } from 'firebase.js';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import { useRadioGroup } from '@mui/material';
+import { borderRadius } from '@mui/system';
 
 const HeadingStyle = {
     textAlign: "left",
-    paddingLeft:"20px"
+    paddingLeft: "20px"
 }
 
 const { Product } = SharedImage;
 
 const ContainerStyle = {
-    paddingBottom:"200px"
+    paddingBottom: "200px"
 }
 
 const MetaStyle = {
-    paddingLeft:"10px"
+    paddingLeft: "10px"
 }
 
+
 export default function ShippingCart() {
+    const [datas, setData] = useState([]);
+
+    const [selected, setSelected] = useState([]);
+
+    function onChange(event, item) {
+        if (event.target.checked) {
+            setSelected([...selected, item]);
+        } else {
+            setSelected((prev) =>
+                prev.filter((currItem) => currItem.value !== item.value)
+            );
+        }
+    }
+
+    const [state, setState] = useState({
+        ip: "",
+        countryName: "",
+        countryCode: "",
+        city: "",
+        timezone: ""
+    });
+
+    const getGeoInfo = () => {
+        axios
+            .get("https://ipapi.co/json/")
+            .then((response) => {
+                let data = response.data;
+                setState({
+                    ...state,
+                    ip: data.ip,
+                    countryName: data.country_name,
+                    countryCode: data.country_calling_code,
+                    city: data.city,
+                    timezone: data.timezone
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        getGeoInfo();
+    }, []);
+
+    var total_price = 0;
+    var total_amount = 0;
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            onAuthStateChanged(auth, async (currentUser) => {
+                if (currentUser) {
+                    //Add to cart
+
+                    const usersRef = await db.ref("users");
+                    usersRef.once('value', function (snapshot) {
+                        snapshot.forEach(function (usersSnapshot) {
+                            var usersData = usersSnapshot.val();
+
+
+                            if (usersData.mail == currentUser.email) {
+                                var ref = db.ref(`users/${usersSnapshot.key}/cart`);
+                                ref.once("value").then((snapshot) => {
+                                    const fetched = snapshot.val();
+                                    console.log('fetched', fetched)
+                                    fetched.forEach(element => {
+                                        var feed = { 'name': element.title, 'photo': element.pic_url, 'price': element.price, 'quantity': element.quantity }
+                                        dummy.push(feed)
+                                    });
+                                    setData(dummy);
+
+
+                                });
+                            }
+
+                        });
+                    });
+                }
+            })
+
+        };
+        fetchData();
+    }, []);
+    let yo = document.querySelectorAll('input[name=chkBox]:checked');
     return (
         <Container style={ContainerStyle}>
             <Heading style={HeadingStyle}>
                 Cart
+
             </Heading>
             <ClientTable>
-                <ClientTr>
-                    <ClientTh>Item Name</ClientTh>
-                    <ClientTh>Remark</ClientTh>
-                    <ClientTh>Price</ClientTh>
-                    <ClientTh>Quantity</ClientTh>
-                    <ClientTh>Amount</ClientTh>
-                    <ClientTh>Edit</ClientTh>
-                </ClientTr>
-                <ClientTr>
-                    <ClientTd>
-                        <Wrapper>
+                <thead>
+                    <ClientTr>
+                        <ClientTh></ClientTh>
+                        <ClientTh>Item Name</ClientTh>
+                        <ClientTh>Price</ClientTh>
+                        <ClientTh>Quantity</ClientTh>
+                        <ClientTh>Remark</ClientTh>
+                        <ClientTh>Size</ClientTh>
+                        <ClientTh>Color</ClientTh>
+                        <ClientTh>Edit</ClientTh>
+                    </ClientTr>
+                </thead>
+                <tbody>
+                    {console.log(dummy)}
+                    {dummy.map((data, key) => {
+                        total_price += parseInt(data.price);
+                        total_amount++;
+                        return (
 
-                            <ProductWrapper>
-                                <ImageWrapper src={Product} alt="product" />
-                            </ProductWrapper>
-                            Cowhide SportsShoe 2022 new edition
-                        </Wrapper>
-                    </ClientTd>
-                    <ClientTd>
-                        Good
-                    </ClientTd>
-                    <ClientTd>
-                        $450
-                    </ClientTd>
-                    <ClientTd>
-                        <NumberBox />
-                    </ClientTd>
-                    <ClientTd>
-                        345
-                    </ClientTd>
-                    <ClientTd>
-                        Delete
-                    </ClientTd>
-                </ClientTr>
-                <ClientTr>
-                    <ClientTd>
-                        <Wrapper>
+                            <ClientTr key={'key'}>
+                                <ClientTd>
+                                    <Box
+                                        onChange={(event) => onChange(event, data.name)}
+                                        sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+                                        <FormControlLabel
+                                            control={<Checkbox />}
+                                        />
+                                    </Box>
+                                </ClientTd>
+                                <ClientTd>
+                                    <Wrapper>
 
-                            <ProductWrapper>
-                                <ImageWrapper src={Product} alt="product" />
-                            </ProductWrapper>
-                            Cowhide SportsShoe 2022 new edition
-                        </Wrapper>
-                    </ClientTd>
-                    <ClientTd>
-                        Good
-                    </ClientTd>
-                    <ClientTd>
-                        $450
-                    </ClientTd>
-                    <ClientTd>
-                        <NumberBox />
-                    </ClientTd>
-                    <ClientTd>
-                        345
-                    </ClientTd>
-                    <ClientTd>
-                        Delete
-                    </ClientTd>
-                </ClientTr>
-                <ClientTr>
-                    <ClientTd>
-                        <Wrapper>
+                                        <ProductWrapper>
+                                            <ImageWrapper src={data.photo} alt="product" />
+                                        </ProductWrapper>
+                                        {data.name}
+                                    </Wrapper>
+                                </ClientTd>
+                                <ClientTd>
+                                    ¥{data.price}
+                                </ClientTd>
+                                <ClientTd>
+                                    <NumberBox />
+                                </ClientTd>
+                                <ClientTd>
+                                    <TextField
+                                        value={data.mail}
+                                        id="mail"
+                                        variant="outlined"
+                                        type="text"
+                                        label="Remark"
+                                        name='Remark'
+                                    />                                </ClientTd>
+                                <ClientTd>9</ClientTd>
+                                <ClientTd>white</ClientTd>
+                                <ClientTd>
+                                    <Button style={{ borderRadius: "10px", background: "#e74c3c" }} text='Delete' />
+                                </ClientTd>
+                            </ClientTr>
 
-                            <ProductWrapper>
-                                <ImageWrapper src={Product} alt="product" />
-                            </ProductWrapper>
-                            Cowhide SportsShoe 2022 new edition
-                        </Wrapper>
-                    </ClientTd>
-                    <ClientTd>
-                        Good
-                    </ClientTd>
-                    <ClientTd>
-                        $450
-                    </ClientTd>
-                    <ClientTd>
-                        <NumberBox />
-                    </ClientTd>
-                    <ClientTd>
-                        345
-                    </ClientTd>
-                    <ClientTd>
-                        Delete
-                    </ClientTd>
-                </ClientTr>
-                <ClientTr>
-                    <ClientTd>
-                        <Wrapper>
+                        );
 
-                            <ProductWrapper>
-                                <ImageWrapper src={Product} alt="product" />
-                            </ProductWrapper>
-                            Cowhide SportsShoe 2022 new edition
-                        </Wrapper>
-                    </ClientTd>
-                    <ClientTd>
-                        Good
-                    </ClientTd>
-                    <ClientTd>
-                        $450
-                    </ClientTd>
-                    <ClientTd>
-                        <NumberBox />
-                    </ClientTd>
-                    <ClientTd>
-                        345
-                    </ClientTd>
-                    <ClientTd>
-                        Delete
-                    </ClientTd>
-                </ClientTr>
-                <ClientTr>
-                    <ClientTd>
-                        <Wrapper>
-
-                            <ProductWrapper>
-                                <ImageWrapper src={Product} alt="product" />
-                            </ProductWrapper>
-                            Cowhide SportsShoe 2022 new edition
-                        </Wrapper>
-                    </ClientTd>
-                    <ClientTd>
-                        Good
-                    </ClientTd>
-                    <ClientTd>
-                        $450
-                    </ClientTd>
-                    <ClientTd>
-                        <NumberBox />
-                    </ClientTd>
-                    <ClientTd>
-                        345
-                    </ClientTd>
-                    <ClientTd>
-                        Delete
-                    </ClientTd>
-                </ClientTr>
-                <ClientTr>
-                    <ClientTd>
-                        <Wrapper>
-
-                            <ProductWrapper>
-                                <ImageWrapper src={Product} alt="product" />
-                            </ProductWrapper>
-                            Cowhide SportsShoe 2022 new edition
-                        </Wrapper>
-                    </ClientTd>
-                    <ClientTd>
-                        Good
-                    </ClientTd>
-                    <ClientTd>
-                        $450
-                    </ClientTd>
-                    <ClientTd>
-                        <NumberBox />
-                    </ClientTd>
-                    <ClientTd>
-                        345
-                    </ClientTd>
-                    <ClientTd>
-                        Delete
-                    </ClientTd>
-                </ClientTr>
+                    })}
+                </tbody>
             </ClientTable>
             <Wrapper>
-                <Button text='Submit'/>
+                <Button text='Submit' />
                 <MetaWrapper>
                     <Wrapper>
-                        Selected : 
+                        Country :
                         <Heading style={MetaStyle}>
-                            12
+                            {state.countryName}
                         </Heading>
-                        </Wrapper>
+                    </Wrapper>
+                    <Wrapper>
+                        Selected :
+                        <Heading style={MetaStyle}>
+                            {selected.length > 0 ? selected.length : null}
+                        </Heading>
+                    </Wrapper>
                     <Wrapper>Total :    <Heading style={MetaStyle}>
-                            $430
-                        </Heading></Wrapper>
+                        ¥{total_price}
+                    </Heading></Wrapper>
                 </MetaWrapper>
             </Wrapper>
         </Container>
@@ -213,6 +230,22 @@ export default function ShippingCart() {
 }
 
 
+// style input
+const inputStyle = {
+    width: "100%",
+    height: "40px",
+    borderRadius: "10px",
+    border: "1px solid #ccc",
+    padding: "0 10px",
+    fontSize: "14px",
+    outline: "none",
+    marginBottom: "10px"
+}
+
+const Inputs = styled.input`
+    color: #000;
+
+`
 const ProductWrapper = styled.div`
     max-width:150px;
     padding-right:20px;

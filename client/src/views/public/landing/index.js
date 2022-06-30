@@ -20,6 +20,9 @@ const { Cloth, Foot, Handbag, Watch, Jewelry, Baby, Phone, Desktop, Home, Food }
 const { Step1, Step2, Step3, Step4, Step5, Step6 } = StepImage;
 
 const HeadingStyle = {
+    backgroundColor: '#072A48',
+    borderRadius: "30px",
+    padding: "30px",
     fontSize: "46px",
     color: "white",
     maxWidth: "700px",
@@ -44,7 +47,7 @@ const BgTextStyle = {
 }
 
 const CaptionStyle = {
-    paddingBottom:"50px"
+    paddingBottom: "50px"
 }
 
 
@@ -58,7 +61,7 @@ export default function LandingPage() {
         const response = await searchProduct(formData);
         if (response) {
             console.log("res:", response);
-            if(response.flag===2){
+            if (response.flag === 2) {
                 history.push({
                     pathname: PUBLIC_PREFIX + SEARCH_PREFIX,
                     state: {
@@ -86,20 +89,27 @@ export default function LandingPage() {
         <>
             <Wrapper>
                 <HeroWrapper>
-                    <Heading style={HeadingStyle}>The CSS Grid Layout Module offers a grid-based layout</Heading>
+                    <Heading style={HeadingStyle}>EASY, FAST, SAFE <br /> ALL IN ONE PACKAGE</Heading>
+                    <br />
+                    <br />
+                    <br />
                     <SearchBox name='search' onChange={(e) => setData(e)} value={formData.search} onClick={toSearchProduct} />
+                    <br />
                     <StepList>
                         <li className="wow fadeInUp">
                             <StepCard icon="user" text='Create Account' />
                         </li>
                         <li className="wow fadeInUp" data-wow-delay=".1s">
-                            <StepCard icon="user" text='Place an Order'/>
-                        </li>
-                        <li className="wow fadeInUp" data-wow-delay=".2s">
-                            <StepCard icon="user" text='Make a Payment'/>
+                            <StepCard icon="user" text='Find an item' />
                         </li>
                         <li className="wow fadeInUp" data-wow-delay=".3s">
-                            <StepCard icon="user" text='Check Quality'/>
+                            <StepCard icon="user" text='Check Quality' />
+                        </li>
+                        <li className="wow fadeInUp" data-wow-delay=".3s">
+                            <StepCard icon="user" text='Buy Items' />
+                        </li>
+                        <li className="wow fadeInUp" data-wow-delay=".3s">
+                            <StepCard icon="user" text='Get your items' />
                         </li>
                     </StepList>
                 </HeroWrapper>
@@ -120,22 +130,22 @@ export default function LandingPage() {
                         </li>
                     </ProductList>
                 </Container>
-                <ShopWrapper>
-                    <Heading className='wow fadeInUp'>Shop By Category</Heading>
+                <ShopWrapper style={{ borderRadius: "100px" }}>
+                    <Heading className='wow fadeInUp'>Find Anything You Want</Heading>
                     <TextWrapper className='wow fadeInUp'>
-                        The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
+                        The Biggest Assortment Of Goods From Taobao, Weidian And 1688.
                     </TextWrapper>
                     <CategoryList className='wow fadeInUp'>
                         <li>
                             <ImageWrapper src={Cloth} alt='cateogry' />
                             <Heading>
-                                Cloth
+                                Clothing
                             </Heading>
                         </li>
                         <li>
                             <ImageWrapper src={Foot} alt='cateogry' />
                             <Heading>
-                                Foot
+                                Footwear
                             </Heading>
                         </li>
                         <li>
@@ -189,28 +199,22 @@ export default function LandingPage() {
                     </CategoryList>
                 </ShopWrapper>
                 <Container style={ContainerStyle}>
-                    <Heading className='wow fadeInUp'>How to Buy from KGHYPE</Heading>
+                    <Heading className='wow fadeInUp'>Our Purchasing Process</Heading>
                     <StepWrapper>
                         <StepImageWrapper className='wow fadeInLeft'>
                             <ImageWrapper src={Step1} alt="step" />
                         </StepImageWrapper>
                         <TextStepWrapper>
-                            <Heading className='wow fadeInUp' style={StepText1}>Multi Search Method</Heading>
-                            <Heading className='wow fadeInUp' style={StepText2}>Good to Search Product</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
+                            <Heading className='wow fadeInUp' style={StepText2}>Everything You’ve
+                                Always Wanted</Heading>
+                            <p style={{ fontSize: "20px" }} className='wow fadeInUp'>The Easiest Way Of Finding The Items You Want Is With KGHYPE. A Simple And Safe Browsing Experience With Only The Highest Quality Of Items. Genuinely The Best Website TO Bulk Buy Anything You Need!
+                            </p>
                         </TextStepWrapper>
                     </StepWrapper>
                     <StepWrapper>
                         <TextStepWrapper2>
-                            <Heading className='wow fadeInUp' style={StepText1}>Multi Search Method</Heading>
-                            <Heading className='wow fadeInUp' style={StepText2}>Good to Search Product</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
+                            <Heading className='wow fadeInUp' style={StepText2}>Order Your Item(s)</Heading>
+                            <p style={{ fontSize: "20px" }} className='wow fadeInUp'>With Your Shopping Cart Full, Check Out With A Variety Of Safe And Well Known Payment Methods.Once The Payment IsProcessed Our Agents Get Notified And The Items Are Purchased Within 24 Hours And Already On Their Way To Our Warehouse For Quality Checking.</p>
                         </TextStepWrapper2>
                         <StepImageWrapper className='wow fadeInRight'>
                             <ImageWrapper src={Step2} alt="step" />
@@ -221,22 +225,14 @@ export default function LandingPage() {
                             <ImageWrapper src={Step3} alt="step" />
                         </StepImageWrapper>
                         <TextStepWrapper>
-                            <Heading className='wow fadeInUp' style={StepText1}>Multi Search Method</Heading>
-                            <Heading className='wow fadeInUp' style={StepText2}>Good to Search Product</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
+                            <Heading className='wow fadeInUp' style={StepText2}>Quality Inspection</Heading>
+                            <p style={{ fontSize: "20px" }} className='wow fadeInUp'>Once The Items Are In Our Warehouse, You Will Receive Pictures To Ensure The Quality Of Your Ordered Item. There’s No Need to Hurry In Making A Decision Though, As We Store Your Items For 180 Days Without Any Cost Towards You Ready To Be Shipped Out At Any Moment.</p>
                         </TextStepWrapper>
                     </StepWrapper>
                     <StepWrapper>
                         <TextStepWrapper2>
-                            <Heading className='wow fadeInUp' style={StepText1}>Multi Search Method</Heading>
-                            <Heading className='wow fadeInUp' style={StepText2}>Good to Search Product</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
+                            <Heading className='wow fadeInUp' style={StepText2}>Packaging Your Item(s)</Heading>
+                            <p style={{ fontSize: "20px" }} className='wow fadeInUp'>Once You Choose Your Shipping Method , Your Items Will Be Packaged Extremely Well To Make Sure They Arrive In One Piece. They Are Shipped Within 24 hours of your Purchase.</p>
                         </TextStepWrapper2>
                         <StepImageWrapper className='wow fadeInRight'>
                             <ImageWrapper src={Step4} alt="step" />
@@ -247,76 +243,30 @@ export default function LandingPage() {
                             <ImageWrapper src={Step5} alt="step" />
                         </StepImageWrapper>
                         <TextStepWrapper>
-                            <Heading className='wow fadeInUp' style={StepText1}>Multi Search Method</Heading>
-                            <Heading className='wow fadeInUp' style={StepText2}>Good to Search Product</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
+                            <Heading className='wow fadeInUp' style={StepText2}>International Shipping</Heading>
+                            <p style={{ fontSize: "20px" }} className='wow fadeInUp'>Nobody Likes Waiting For Their Stuff, I Get it.But The Good News Is That It Will Soon Be At Your Doorstep, And With Your Tracking Number, You Can Get Detailed Info On How Close Your Items Are!</p>
                         </TextStepWrapper>
                     </StepWrapper>
                     <StepWrapper>
                         <TextStepWrapper2>
-                            <Heading className='wow fadeInUp' style={StepText1}>Multi Search Method</Heading>
-                            <Heading className='wow fadeInUp' style={StepText2}>Good to Search Product</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.
-                                The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier to design web pages without having to use floats and positioning.</p>
+                            <Heading className='wow fadeInUp' style={StepText2}>It’s Here!</Heading>
+                            <p style={{ fontSize: "20px" }} className='wow fadeInUp'>Your Package Is Finally Here! If You Have Any Questions Or Are Not Satisfied With Something, Contact Support And Get It fixed ASAP. Thank You For Shopping With KGHYPE!</p>
+
                         </TextStepWrapper2>
                         <StepImageWrapper className='wow fadeInRight'>
                             <ImageWrapper src={Step6} alt="step" />
                         </StepImageWrapper>
                     </StepWrapper>
                 </Container>
-                <Container style={ContainerStyle}>
-                <Heading className='wow fadeInUp' style={CaptionStyle}>Recommend for you</Heading>
-                    <ProductList className='wow fadeInUp'>
-                        <li>
-                            <ProductCard />
-                        </li>
-                        <li>
-                            <ProductCard />
-                        </li>
-                        <li>
-                            <ProductCard />
-                        </li>
-                        <li>
-                            <ProductCard />
-                        </li>
-                    </ProductList>
+                <Container style={{ backgroundColor: "#072A48", borderTopRightRadius: "30px", borderTopLeftRadius: "30px" }}>
+                    <br />
+                    <center><Heading style={HeadingStyle}>Why Choose Us</Heading></center>
+                    <br />
+                    <br />
+                    <img style={{ width: "100%" }} src={'https://media.discordapp.net/attachments/708033159538802819/987472013323038810/Image_footer.PNG?width=860&height=523'}></img>
                 </Container>
-                <Container style={ContainerStyle}>
-                <Heading className='wow fadeInUp' style={CaptionStyle}>Featured Product</Heading>
-
-                    <ProductList className='wow fadeInUp'>
-                        <li>
-                            <ProductCard />
-                        </li>
-                        <li>
-                            <ProductCard />
-                        </li>
-                        <li>
-                            <ProductCard />
-                        </li>
-                        <li>
-                            <ProductCard />
-                        </li>
-                    </ProductList>
-                </Container>
-                <Container>
-                    <BgWrapper>
-                        <TextWrapper id="bg-text" style={BgTextStyle}>
-                            <Heading className='wow fadeInUp' style={StepText2}>The CSS Gird Layout Module</Heading>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier.The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier</p>
-                            <p className='wow fadeInUp'>The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier.The CSS Grid Layout Module offers a grid-based layout system, with rows and columns, making it easier</p>
-                            <ButtonWrapper className='wow fadeInUp'>
-                                <Link text="Join Now" />
-                                <Link text="Learn More" />
-                            </ButtonWrapper>
-                        </TextWrapper>
-                        <ImageWrapper id="bg" src={Bg} alt="bg" />
-                    </BgWrapper>
+                <Container style={{ backgroundColor: "#072A48" }}>
+                    <img style={{ width: "100%" }} src={'https://media.discordapp.net/attachments/708033159538802819/987472424461287504/Image_Footer2.PNG?width=860&height=213'}></img>
                 </Container>
             </Wrapper>
         </>
@@ -331,8 +281,8 @@ const Wrapper = styled.div`
 
 `
 const HeroWrapper = styled.div`
-    background-image:url(${Landing});
-    min-height:720px;
+    background-image:url("https://i.postimg.cc/HstKsLKq/kghype-landing.png");
+    min-height:420px;
     width:100%;
     background-position:center;
     background-repeat:no-repeat;
@@ -407,7 +357,10 @@ const StepWrapper = styled.div`
 const TextStepWrapper = styled.div`
     flex:1;
     max-width:650px;
-    padding-left:100px;
+    padding:60px;
+    background-color: #072A48;
+    border-radius: 100px;
+    color: white;
     @media screen and (max-width:890px) {
         padding-left:0px;
         order:2;
@@ -416,7 +369,10 @@ const TextStepWrapper = styled.div`
 const TextStepWrapper2 = styled.div`
     flex:1;
     max-width:650px;
-    padding-right:100px;
+    padding:60px;
+    background-color: #072A48;
+    border-radius: 100px;
+    color: white;
     @media screen and (max-width:890px) {
         padding-right:0px;
         order:2;

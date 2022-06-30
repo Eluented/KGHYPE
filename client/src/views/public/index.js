@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
-import { LOGIN_PREFIX, PUBLIC_PREFIX, ERROR_PREFIX, SIGNUP_PREFIX, PROFILE_PREFIX, PRODUCT_DETAIL_PREFIX, SHIPPING_PREFIX, WAREHOUSE_PREFIX, PARCEL_PREFIX, INTERNATIONAL_PREFIX, AFILLIATE_PREFIX, CHECKOUT_PREFIX, CALCULATOR_PREFIX, SEARCH_PREFIX, MANUAL_PREFIX, BANK_PREFIX, MANUAL_PRODUCT_DETAIL_PREFIX } from 'configs/app-config';
+import { LOGIN_PREFIX, PUBLIC_PREFIX, ERROR_PREFIX, SIGNUP_PREFIX, PROFILE_PREFIX, PRODUCT_DETAIL_PREFIX, SHIPPING_PREFIX, WAREHOUSE_PREFIX, PARCEL_PREFIX, INTERNATIONAL_PREFIX, AFILLIATE_PREFIX, CHECKOUT_PREFIX, CALCULATOR_PREFIX, SEARCH_PREFIX, MANUAL_PREFIX, BANK_PREFIX, MANUAL_PRODUCT_DETAIL_PREFIX, HISTORY_PREFIX, HISTORYCART_PREFIX, CONFIRM_PREFIX } from 'configs/app-config';
 import LoginPage from './login';
 import NowFoundPage from './404';
 import LandingPage from './landing';
@@ -17,6 +17,9 @@ import ShippingCalculator from './shipping-calculator';
 import ProductSearch from './product-search';
 import ManualProductSubmissionPage from './manual-product-submission';
 import ManualProductDetailsPage from './manual-product-detail';
+import HistoryPage from './history';
+import HistoryCart from './historycart';
+import ConfirmCart from './confirm';
 
 export default function PublicPage() {
     return (
@@ -28,7 +31,10 @@ export default function PublicPage() {
             <Route path={PUBLIC_PREFIX + PRODUCT_DETAIL_PREFIX} component={ProductDetailPage} />
             <Route path={PUBLIC_PREFIX + MANUAL_PRODUCT_DETAIL_PREFIX} component={ManualProductDetailsPage} />
             <Route exact path={PUBLIC_PREFIX + SHIPPING_PREFIX} component={ShippingCart} />
+            <Route exact path={PUBLIC_PREFIX + CONFIRM_PREFIX} component={ConfirmCart} />
             <Route exact path={PUBLIC_PREFIX + WAREHOUSE_PREFIX} component={WareHousePage} />
+            <Route exact path={PUBLIC_PREFIX + HISTORY_PREFIX} component={HistoryPage} />
+            <Route exact path={PUBLIC_PREFIX + HISTORYCART_PREFIX} component={HistoryCart} />
             <Route exact path={PUBLIC_PREFIX + PARCEL_PREFIX} component={ParcelPage} />
             <Route exact path={PUBLIC_PREFIX + BANK_PREFIX} component={BankPage} />
             <Route exact path={PUBLIC_PREFIX + SHIPPING_PREFIX + INTERNATIONAL_PREFIX} component={InternationalShippingPage} />
